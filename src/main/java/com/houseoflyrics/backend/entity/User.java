@@ -1,5 +1,6 @@
 package com.houseoflyrics.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -12,36 +13,46 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Long id;
 
-    private int id_instrument;
+    @ManyToOne
+    @JoinColumn(name = "id_instrument", nullable = false)
+    private MusicalInstrument musicalInstrument;
+
+    @Column(name = "nickname", nullable = false, length = 255)
     private String nickname;
+    @Column(name = "mail", nullable = false, length = 255)
     private String mail;
+    @JsonIgnore
+    @Column(name = "password", nullable = false, length = 255)
     private String password;
+
     @CreationTimestamp
     @Column(name = "registration_date", updatable = false)
-    private LocalDateTime registration_date;
-    private String profile_picture;
+    private LocalDateTime registrationDate;
+    @Column(name = "profile_picture", nullable = false, length = 255)
+    private String profilePicture;
+    @Column(name = "admin", nullable = false)
     private boolean admin;
 
     public User(){
 
     }
 
-    public User(int id_instrument, String nickname, String mail, String password, LocalDateTime registration_date, String profile_picture, boolean admin){
-        this.id_instrument = id_instrument;
+    public User(MusicalInstrument musicalInstrument, String nickname, String mail, String password, String profilePicture, boolean admin) {
+        this.musicalInstrument = musicalInstrument;
         this.nickname = nickname;
         this.mail = mail;
         this.password = password;
-        this.registration_date = registration_date;
-        this.profile_picture = profile_picture;
+        this.profilePicture = profilePicture;
         this.admin = admin;
     }
 
-    public int getId_instrument() {
-        return id_instrument;
+
+    public MusicalInstrument getMusicalInstrument() {
+        return musicalInstrument;
     }
 
-    public void setId_instrument(int id_instrument) {
-        this.id_instrument = id_instrument;
+    public void setMusicalInstrument(MusicalInstrument musicalInstrument) {
+        this.musicalInstrument = musicalInstrument;
     }
 
     public String getMail() {
@@ -60,20 +71,20 @@ public class User {
         this.password = password;
     }
 
-    public LocalDateTime getRegistration_date() {
-        return registration_date;
+    public LocalDateTime getRegistrationDate() {
+        return registrationDate;
     }
 
-    public void setRegistration_date(LocalDateTime registration_date) {
-        this.registration_date = registration_date;
+    public void setRegistrationDate(LocalDateTime registrationDate) {
+        this.registrationDate = registrationDate;
     }
 
-    public String getProfile_picture() {
-        return profile_picture;
+    public String getProfilePicture() {
+        return profilePicture;
     }
 
-    public void setProfile_picture(String profile_picture) {
-        this.profile_picture = profile_picture;
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
 
     public boolean isAdmin() {

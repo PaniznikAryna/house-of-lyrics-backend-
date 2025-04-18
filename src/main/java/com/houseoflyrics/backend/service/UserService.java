@@ -16,7 +16,6 @@ public class UserService {
     }
 
     public User registerUser(User user) {
-        // Хешируем пароль перед сохранением
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
@@ -28,5 +27,17 @@ public class UserService {
     public boolean authenticate(String mail, String rawPassword) {
         Optional<User> userOpt = userRepository.findByMail(mail);
         return userOpt.isPresent() && passwordEncoder.matches(rawPassword, userOpt.get().getPassword());
+    }
+
+    public User saveUser(User user){
+        return userRepository.save(user);
+    }
+
+    public boolean deleteUser(Long id){
+        if (userRepository.existsById(id)) {
+            userRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "musical_instrument")
-public class Musical_instrument {
+public class MusicalInstrument {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,9 +16,9 @@ public class Musical_instrument {
     @Column(name = "description", nullable = false, columnDefinition = "text")
     private String description;
 
-    public Musical_instrument() {}
+    public MusicalInstrument() {}
 
-    public Musical_instrument(String instrument, String description) {
+    public MusicalInstrument(String instrument, String description) {
         this.instrument = instrument;
         this.description = description;
     }
