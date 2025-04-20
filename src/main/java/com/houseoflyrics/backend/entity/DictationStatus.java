@@ -3,29 +3,29 @@ package com.houseoflyrics.backend.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "test_status")
-public class TestStatus {
+@Table(name = "dictation_status",        uniqueConstraints = @UniqueConstraint(columnNames = {"id_dictation", "id_user"}))
+public class DictationStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_test", nullable = false)
-    private Test test;
+    @JoinColumn(name = "id_dictation", nullable = false)
+    private Dictation dictation;
 
     @ManyToOne
     @JoinColumn(name = "id_user", nullable = false)
     private User user;
 
-    public enum TestStatusEnum{
+    public enum DictationStatusEnum{
         НЕ_НАЧАТО("не начато"),
         НЕ_ПРОЙДЕНО("не пройдено"),
-        ПРОЙДЕНО("пройдено"),
-        ЗАВЕРШЕНО("завершено");
+        В_ПРОЦЕССЕ("в процессе"),
+        ПРОЙДЕНО("пройдено");
 
         private final String value;
 
-        TestStatusEnum(String value) {
+        DictationStatusEnum(String value) {
             this.value = value;
         }
 
@@ -36,16 +36,16 @@ public class TestStatus {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private TestStatusEnum status;
+    private DictationStatus.DictationStatusEnum status;
 
     @Column(name = "result", nullable = false)
     private double result = 0.0;
 
-    public TestStatus(){
+    public DictationStatus(){
     }
 
-    public TestStatus(Test test, User user, TestStatusEnum status, double result) {
-        this.test = test;
+    public DictationStatus(Dictation dictation, User user, DictationStatusEnum status, double result) {
+        this.dictation = dictation;
         this.user = user;
         this.status = status;
         this.result = result;
@@ -59,12 +59,12 @@ public class TestStatus {
         this.id = id;
     }
 
-    public Test getTest() {
-        return test;
+    public Dictation getDictation() {
+        return dictation;
     }
 
-    public void setTest(Test test) {
-        this.test = test;
+    public void setDictation(Dictation dictation) {
+        this.dictation = dictation;
     }
 
     public User getUser() {
@@ -75,11 +75,11 @@ public class TestStatus {
         this.user = user;
     }
 
-    public TestStatusEnum getStatus() {
+    public DictationStatusEnum getStatus() {
         return status;
     }
 
-    public void setStatus(TestStatusEnum status) {
+    public void setStatus(DictationStatusEnum status) {
         this.status = status;
     }
 
@@ -90,6 +90,4 @@ public class TestStatus {
     public void setResult(double result) {
         this.result = result;
     }
-
-
 }

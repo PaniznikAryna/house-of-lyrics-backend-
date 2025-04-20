@@ -27,9 +27,11 @@ public class User {
 
     @CreationTimestamp
     @Column(name = "registration_date", updatable = false)
-    private LocalDateTime registrationDate;
+    private LocalDateTime registrationDate = LocalDateTime.now();
+
     @Column(name = "profile_picture", nullable = false, length = 255)
     private String profilePicture;
+
     @Column(name = "admin", nullable = false)
     private boolean admin;
 
