@@ -17,9 +17,13 @@ public class UserService {
     }
 
     public User registerUser(User user) {
+        if (user.getPassword() == null || user.getPassword().isBlank()) {
+            throw new IllegalArgumentException("Пароль не может быть пустым");
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
+
 
     public Optional<User> findByMail(String mail) {
         return userRepository.findByMail(mail);
