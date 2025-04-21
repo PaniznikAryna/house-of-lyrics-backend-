@@ -15,7 +15,7 @@ public class TestStatus {
 
     @ManyToOne
     @JoinColumn(name = "id_user", nullable = false)
-    private User user;
+    private Users user;
 
     public enum TestStatusEnum{
         НЕ_НАЧАТО("не начато"),
@@ -44,7 +44,7 @@ public class TestStatus {
     public TestStatus(){
     }
 
-    public TestStatus(Test test, User user, TestStatusEnum status, double result) {
+    public TestStatus(Test test, Users user, TestStatusEnum status, double result) {
         this.test = test;
         this.user = user;
         this.status = status;
@@ -67,11 +67,11 @@ public class TestStatus {
         this.test = test;
     }
 
-    public User getUser() {
+    public Users getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Users user) {
         this.user = user;
     }
 

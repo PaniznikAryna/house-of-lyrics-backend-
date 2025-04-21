@@ -13,7 +13,7 @@ public class AchievementStatus {
 
     @ManyToOne
     @JoinColumn(name = "id_user", nullable = false)
-    private User user;
+    private Users user;
 
     @ManyToOne
     @JoinColumn(name = "id_achievement", nullable = false)
@@ -28,7 +28,7 @@ public class AchievementStatus {
     public AchievementStatus(){
     }
 
-    public AchievementStatus(User user, Achievement achievement, boolean status, LocalDateTime dateOfReceipt) {
+    public AchievementStatus(Users user, Achievement achievement, boolean status, LocalDateTime dateOfReceipt) {
         this.user = user;
         this.achievement = achievement;
         this.status = status;
@@ -43,11 +43,11 @@ public class AchievementStatus {
         this.id = id;
     }
 
-    public User getUser() {
+    public Users getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Users user) {
         this.user = user;
     }
 

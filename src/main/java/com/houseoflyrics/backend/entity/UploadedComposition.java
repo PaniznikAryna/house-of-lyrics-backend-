@@ -2,7 +2,6 @@ package com.houseoflyrics.backend.entity;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -14,7 +13,7 @@ public class UploadedComposition {
 
     @ManyToOne
     @JoinColumn(name = "id_user", nullable = false)
-    private User user;
+    private Users user;
 
     @Column(name = "file", nullable = false, length = 255)
     private String file;
@@ -31,7 +30,7 @@ public class UploadedComposition {
     public UploadedComposition(){
     }
 
-    public UploadedComposition(User user, String file, String title, LocalDateTime uploadDate, String picture) {
+    public UploadedComposition(Users user, String file, String title, LocalDateTime uploadDate, String picture) {
         this.user = user;
         this.file = file;
         this.title = title;
@@ -47,11 +46,11 @@ public class UploadedComposition {
         this.id = id;
     }
 
-    public User getUser() {
+    public Users getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Users user) {
         this.user = user;
     }
 

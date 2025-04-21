@@ -15,7 +15,7 @@ public class DictationStatus {
 
     @ManyToOne
     @JoinColumn(name = "id_user", nullable = false)
-    private User user;
+    private Users user;
 
     public enum DictationStatusEnum{
         НЕ_НАЧАТО("не начато"),
@@ -44,7 +44,7 @@ public class DictationStatus {
     public DictationStatus(){
     }
 
-    public DictationStatus(Dictation dictation, User user, DictationStatusEnum status, double result) {
+    public DictationStatus(Dictation dictation, Users user, DictationStatusEnum status, double result) {
         this.dictation = dictation;
         this.user = user;
         this.status = status;
@@ -67,11 +67,11 @@ public class DictationStatus {
         this.dictation = dictation;
     }
 
-    public User getUser() {
+    public Users getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Users user) {
         this.user = user;
     }
 

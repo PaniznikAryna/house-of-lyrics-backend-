@@ -1,6 +1,6 @@
 package com.houseoflyrics.backend.service;
 
-import com.houseoflyrics.backend.entity.User;
+import com.houseoflyrics.backend.entity.Users;
 import com.houseoflyrics.backend.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User registerUser(User user) {
+    public Users registerUser(Users user) {
         if (user.getPassword() == null || user.getPassword().isBlank()) {
             throw new IllegalArgumentException("Пароль не может быть пустым");
         }
@@ -25,16 +25,16 @@ public class UserService {
     }
 
 
-    public Optional<User> findByMail(String mail) {
+    public Optional<Users> findByMail(String mail) {
         return userRepository.findByMail(mail);
     }
 
     public boolean authenticate(String mail, String rawPassword) {
-        Optional<User> userOpt = userRepository.findByMail(mail);
+        Optional<Users> userOpt = userRepository.findByMail(mail);
         return userOpt.isPresent() && passwordEncoder.matches(rawPassword, userOpt.get().getPassword());
     }
 
-    public User saveUser(User user){
+    public Users saveUser(Users user){
         return userRepository.save(user);
     }
 

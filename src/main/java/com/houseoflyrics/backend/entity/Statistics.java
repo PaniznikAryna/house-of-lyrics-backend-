@@ -11,7 +11,7 @@ public class Statistics {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_user", nullable = false, unique = true)
-    private User user;
+    private Users user;
 
    @Column(name = "completed_lessons", nullable = false)
        private int completedLessons = 0;
@@ -30,7 +30,7 @@ public class Statistics {
 
     public Statistics() {}
 
-    public Statistics(User user, int completedLessons, int completedTests, int achievementsReceived, int trainingDays) {
+    public Statistics(Users user, int completedLessons, int completedTests, int achievementsReceived, int trainingDays) {
         this.user = user;
         this.completedLessons = completedLessons;
         this.completedTests = completedTests;
@@ -46,11 +46,11 @@ public class Statistics {
         this.id = id;
     }
 
-    public User getUser() {
+    public Users getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Users user) {
         this.user = user;
     }
 

@@ -15,12 +15,12 @@ public class TestCompositionStatus {
 
     @ManyToOne
     @JoinColumn(name = "id_user", nullable = false)
-    private User user;
+    private Users user;
 
     public TestCompositionStatus(){
     }
 
-    public TestCompositionStatus(TestComposition testComposition, User user) {
+    public TestCompositionStatus(TestComposition testComposition, Users user) {
         this.testComposition = testComposition;
         this.user = user;
     }
@@ -41,11 +41,11 @@ public class TestCompositionStatus {
         this.testComposition = testComposition;
     }
 
-    public User getUser() {
+    public Users getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Users user) {
         this.user = user;
     }
 }

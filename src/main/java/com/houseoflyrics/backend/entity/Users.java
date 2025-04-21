@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Long id;
@@ -35,11 +35,11 @@ public class User {
     @Column(name = "admin", nullable = false)
     private boolean admin;
 
-    public User(){
+    public Users(){
 
     }
 
-    public User(MusicalInstrument musicalInstrument, String nickname, String mail, String password, String profilePicture, boolean admin) {
+    public Users(MusicalInstrument musicalInstrument, String nickname, String mail, String password, String profilePicture, boolean admin) {
         this.musicalInstrument = musicalInstrument;
         this.nickname = nickname;
         this.mail = mail;

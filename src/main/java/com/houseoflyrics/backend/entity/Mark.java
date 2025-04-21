@@ -15,7 +15,7 @@ public class Mark {
 
     @ManyToOne
     @JoinColumn(name = "id_user", nullable = false)
-    private User user;
+    private Users user;
 
     @Column(name = "user_note", nullable = false, length = 100)
     private String userNote;
@@ -26,7 +26,7 @@ public class Mark {
     public Mark(){
     }
 
-    public Mark(Composition composition, User user, String userNote, int tagTime) {
+    public Mark(Composition composition, Users user, String userNote, int tagTime) {
         this.composition = composition;
         this.user = user;
         this.userNote = userNote;
@@ -49,11 +49,11 @@ public class Mark {
         this.composition = composition;
     }
 
-    public User getUser() {
+    public Users getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Users user) {
         this.user = user;
     }
 

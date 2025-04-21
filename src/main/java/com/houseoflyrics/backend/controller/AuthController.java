@@ -1,6 +1,6 @@
 package com.houseoflyrics.backend.controller;
 
-import com.houseoflyrics.backend.entity.User;
+import com.houseoflyrics.backend.entity.Users;
 import com.houseoflyrics.backend.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +15,8 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
-        User registeredUser = userService.registerUser(user);
+    public ResponseEntity<Users> registerUser(@RequestBody Users user) {
+        Users registeredUser = userService.registerUser(user);
         return ResponseEntity.ok(registeredUser);
     }
 

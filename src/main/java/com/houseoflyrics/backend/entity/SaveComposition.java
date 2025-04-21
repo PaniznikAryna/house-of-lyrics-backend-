@@ -15,7 +15,7 @@ public class SaveComposition {
 
     @ManyToOne
     @JoinColumn(name = "id_user", nullable = false)
-    private User user;
+    private Users user;
 
     @Column(name = "folder", nullable = false, length = 100)
     private String folder;
@@ -23,7 +23,7 @@ public class SaveComposition {
     public SaveComposition(){
     }
 
-    public SaveComposition(Composition composition, User user, String folder) {
+    public SaveComposition(Composition composition, Users user, String folder) {
         this.composition = composition;
         this.user = user;
         this.folder = folder;
@@ -45,11 +45,11 @@ public class SaveComposition {
         this.composition = composition;
     }
 
-    public User getUser() {
+    public Users getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Users user) {
         this.user = user;
     }
 
