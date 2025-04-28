@@ -1,27 +1,49 @@
 package com.houseoflyrics.backend.service;
 
+import com.houseoflyrics.backend.entity.MusicalInstrument;
 import com.houseoflyrics.backend.entity.Users;
+import com.houseoflyrics.backend.repository.MusicalInstrumentRepository;
 import com.houseoflyrics.backend.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final MusicalInstrumentRepository musicalInstrumentRepository;
 
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder,
+                       MusicalInstrumentRepository musicalInstrumentRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.musicalInstrumentRepository = musicalInstrumentRepository;
     }
 
     public Users registerUser(Users user) {
         if (user.getPassword() == null || user.getPassword().isBlank()) {
             throw new IllegalArgumentException("Пароль не может быть пустым");
         }
+
+        MusicalInstrument instrumentFromDb = musicalInstrumentRepository.findById(
+                        user.getMusicalInstrument().getId())
+                .orElseThrow(() -> new IllegalArgumentException("Инструмент с указанным id не найден"));
+
+        user.setMusicalInstrument(instrumentFromDb);
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
+    }
+
+    public List<Users> findAll() {
+        return userRepository.findAll();
+    }
+
+    public Optional<Users> findById(Long id){
+        return userRepository.findById(id);
     }
 
 
