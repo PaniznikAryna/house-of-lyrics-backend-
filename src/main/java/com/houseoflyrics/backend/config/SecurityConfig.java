@@ -15,11 +15,12 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .httpBasic(httpBasic -> httpBasic.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/error").permitAll()  // разрешаем /auth/** и /error
+                        .requestMatchers( "/**").permitAll()
                         .anyRequest().authenticated()
                 );
         return http.build();
     }
+
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
