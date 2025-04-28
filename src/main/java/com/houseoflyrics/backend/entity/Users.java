@@ -1,6 +1,7 @@
 package com.houseoflyrics.backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -19,9 +20,9 @@ public class Users {
 
     @Column(name = "nickname", nullable = false, length = 255)
     private String nickname;
-    @Column(name = "mail", nullable = false, length = 255)
+    @Column(name = "mail", nullable = false, length = 255, unique = true)
     private String mail;
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "password", nullable = false, length = 255)
     private String password;
 

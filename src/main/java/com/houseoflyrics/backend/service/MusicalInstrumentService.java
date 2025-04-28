@@ -4,6 +4,7 @@ import com.houseoflyrics.backend.entity.MusicalInstrument;
 import com.houseoflyrics.backend.repository.MusicalInstrumentRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -12,6 +13,10 @@ public class MusicalInstrumentService {
 
     public MusicalInstrumentService(MusicalInstrumentRepository musicalInstrumentRepository) {
         this.musicalInstrumentRepository = musicalInstrumentRepository;
+    }
+
+    public List<MusicalInstrument> findAll() {
+        return musicalInstrumentRepository.findAll();
     }
 
    public Optional<MusicalInstrument> findByInstrument(String instrument){

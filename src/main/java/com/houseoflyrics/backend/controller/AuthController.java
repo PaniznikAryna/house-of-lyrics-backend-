@@ -2,6 +2,7 @@ package com.houseoflyrics.backend.controller;
 
 import com.houseoflyrics.backend.entity.Users;
 import com.houseoflyrics.backend.service.UserService;
+import com.houseoflyrics.backend.util.JwtUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,12 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Users> registerUser(@RequestBody Users user) {
+    public ResponseEntity<?> registerUser(@RequestBody Users user) {
+        if (userService.findByMail(user.getMail()).isPresent()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("Пользователь с данной почтой уже существует");
+        }
         Users registeredUser = userService.registerUser(user);
         return ResponseEntity.ok(registeredUser);
     }
@@ -24,12 +30,13 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestParam String mail, @RequestParam String password) {
         boolean isAuthenticated = userService.authenticate(mail, password);
-        return isAuthenticated ? ResponseEntity.ok("Успешный вход!") : ResponseEntity.status(401).body("Ошибка авторизации");
+        if (isAuthenticated) {
+            String token = JwtUtil.generateToken(mail); // Генерация токена
+            return ResponseEntity.ok("Токен: " + token);
+        } else {
+            return ResponseEntity.status(401).body("Ошибка авторизации");
+        }
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<String> test() {
-        return ResponseEntity.ok("Тест работает!");
-    }
 
 }
