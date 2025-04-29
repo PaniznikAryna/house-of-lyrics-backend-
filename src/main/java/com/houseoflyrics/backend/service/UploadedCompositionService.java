@@ -1,6 +1,7 @@
 package com.houseoflyrics.backend.service;
 
 import com.houseoflyrics.backend.entity.UploadedComposition;
+import com.houseoflyrics.backend.entity.Users;
 import com.houseoflyrics.backend.repository.UploadedCompositionRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,19 +20,23 @@ public class UploadedCompositionService {
         return uploadedCompositionRepository.findAll();
     }
 
-//    public Optional<UploadedComposition> findByName(String name) {
-//        return uploadedCompositionRepository.findByName(name);
-//    }
+    public List<UploadedComposition> findAllByUserId(Long userId) {
+        return uploadedCompositionRepository.findAllByUserId(userId);
+    }
+
+    public Optional<UploadedComposition> findByUserAndTitle(Users user, String title) {
+        return uploadedCompositionRepository.findByUserAndTitle(user, title);
+    }
 
     public Optional<UploadedComposition> findById(Long id) {
         return uploadedCompositionRepository.findById(id);
     }
 
-    public UploadedComposition saveComposition(UploadedComposition composition) {
+    public UploadedComposition saveUploadedComposition(UploadedComposition composition) {
         return uploadedCompositionRepository.save(composition);
     }
 
-    public boolean deleteComposition(Long id) {
+    public boolean deleteUploadedComposition(Long id) {
         if (uploadedCompositionRepository.existsById(id)) {
             uploadedCompositionRepository.deleteById(id);
             return true;
