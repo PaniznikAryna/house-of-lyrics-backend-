@@ -67,4 +67,20 @@ public class UserService {
         }
         return false;
     }
+
+    public Users updateUser(Users currentUser, Users targetUser, Users updatedData) {
+        if (currentUser.isAdmin() && !currentUser.getId().equals(targetUser.getId())) {
+            targetUser.setAdmin(updatedData.isAdmin());
+        }
+
+        if (currentUser.getId().equals(targetUser.getId())) {
+            targetUser.setNickname(updatedData.getNickname());
+            if (updatedData.getPassword() != null && !updatedData.getPassword().isBlank()) {
+                targetUser.setPassword(passwordEncoder.encode(updatedData.getPassword()));
+            }
+            targetUser.setProfilePicture(updatedData.getProfilePicture());
+        }
+        return userRepository.save(targetUser);
+    }
+
 }

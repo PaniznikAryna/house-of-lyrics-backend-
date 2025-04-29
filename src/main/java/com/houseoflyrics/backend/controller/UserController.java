@@ -26,7 +26,7 @@ public class UserController {
             List<Users> users = userService.findAll();
             return ResponseEntity.ok(users);
         }
-        return ResponseEntity.status(403).build();
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
     @GetMapping("/{id}")
@@ -77,26 +77,14 @@ public class UserController {
         if (tokenUser.isEmpty()) {
             return ResponseEntity.status(401).body("Невалидный токен");
         }
+
         Users currentUser = tokenUser.get();
         Optional<Users> targetOpt = userService.findById(id);
         if (targetOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Пользователь не найден");
         }
-        Users targetUser = targetOpt.get();
-        if (currentUser.isAdmin() && !currentUser.getId().equals(id)) {
-            targetUser.setAdmin(updatedData.isAdmin());
-            Users savedUser = userService.saveUser(targetUser);
-            return ResponseEntity.ok(savedUser);
-        }
-        if (currentUser.getId().equals(id)) {
-            targetUser.setNickname(updatedData.getNickname());
-            if (updatedData.getPassword() != null && !updatedData.getPassword().isBlank()) {
-                targetUser.setPassword(updatedData.getPassword());
-            }
-            targetUser.setProfilePicture(updatedData.getProfilePicture());
-            Users savedUser = userService.saveUser(targetUser);
-            return ResponseEntity.ok(savedUser);
-        }
-        return ResponseEntity.status(403).body("Доступ запрещён");
+
+        Users updatedUser = userService.updateUser(currentUser, targetOpt.get(), updatedData);
+        return ResponseEntity.ok(updatedUser);
     }
 }
