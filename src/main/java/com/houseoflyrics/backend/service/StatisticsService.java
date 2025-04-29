@@ -3,7 +3,6 @@ package com.houseoflyrics.backend.service;
 import com.houseoflyrics.backend.entity.Statistics;
 import com.houseoflyrics.backend.repository.StatisticsRepository;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -19,9 +18,12 @@ public class StatisticsService {
         return statisticsRepository.findAll();
     }
 
-
     public Optional<Statistics> findById(Long id) {
         return statisticsRepository.findById(id);
+    }
+
+    public Optional<Statistics> findByUserId(Long userId) {
+        return statisticsRepository.findByUserId(userId);
     }
 
     public Statistics saveStatistics(Statistics statistics) {
