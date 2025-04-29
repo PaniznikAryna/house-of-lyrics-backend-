@@ -22,7 +22,7 @@ public class Users {
     private String nickname;
     @Column(name = "mail", nullable = false, length = 255, unique = true)
     private String mail;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(access = JsonProperty.Access.READ_WRITE)
     @Column(name = "password", nullable = false, length = 255)
     private String password;
 
