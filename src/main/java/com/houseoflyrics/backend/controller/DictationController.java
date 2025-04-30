@@ -3,6 +3,7 @@ package com.houseoflyrics.backend.controller;
 import com.houseoflyrics.backend.entity.Dictation;
 import com.houseoflyrics.backend.entity.Users;
 import com.houseoflyrics.backend.service.DictationService;
+import com.houseoflyrics.backend.service.DictationStatusService;
 import com.houseoflyrics.backend.service.UserService;
 import com.houseoflyrics.backend.util.JwtUtil;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,12 @@ import java.util.Optional;
 public class DictationController {
     private final DictationService dictationService;
     private final UserService userService;
+    private final DictationStatusService dictationStatusService;
 
-    public DictationController(DictationService dictationService, UserService userService) {
+    public DictationController(DictationService dictationService, UserService userService, DictationStatusService dictationStatusService) {
         this.dictationService = dictationService;
         this.userService = userService;
+        this.dictationStatusService = dictationStatusService;
     }
 
     @GetMapping("/all")
@@ -42,10 +45,12 @@ public class DictationController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addDictation(@RequestHeader("Authorization") String token, @RequestBody Dictation dictation) {
+    public ResponseEntity<?> addDictation(@RequestHeader("Authorization") String token,
+                                          @RequestBody Dictation dictation) {
         Optional<Users> user = JwtUtil.getUserFromToken(token, userService);
         if (user.isPresent() && user.get().isAdmin()) {
             Dictation savedDictation = dictationService.saveDictation(dictation);
+            dictationStatusService.assignDefaultStatusToAllUsers(savedDictation);
             return ResponseEntity.ok(savedDictation);
         }
         return ResponseEntity.status(403).body("Доступ запрещён");
