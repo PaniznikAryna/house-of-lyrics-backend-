@@ -1,5 +1,6 @@
 package com.houseoflyrics.backend.entity;
 
+import com.houseoflyrics.backend.DictationStatusEnumConverter;
 import jakarta.persistence.*;
 
 @Entity
@@ -34,9 +35,10 @@ public class DictationStatus {
         }
     }
 
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = DictationStatusEnumConverter.class)
     @Column(name = "status", nullable = false)
     private DictationStatus.DictationStatusEnum status;
+
 
     @Column(name = "result", nullable = false)
     private double result = 0.0;

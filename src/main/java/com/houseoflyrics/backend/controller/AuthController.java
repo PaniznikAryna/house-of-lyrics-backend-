@@ -1,22 +1,35 @@
 package com.houseoflyrics.backend.controller;
 
+import com.houseoflyrics.backend.entity.Dictation;
+import com.houseoflyrics.backend.entity.DictationStatus;
 import com.houseoflyrics.backend.entity.Statistics;
 import com.houseoflyrics.backend.entity.Users;
+import com.houseoflyrics.backend.service.DictationService;
+import com.houseoflyrics.backend.service.DictationStatusService;
 import com.houseoflyrics.backend.service.StatisticsService;
 import com.houseoflyrics.backend.service.UserService;
 import com.houseoflyrics.backend.util.JwtUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
     private final UserService userService;
     private final StatisticsService statisticsService;
+    private final DictationService dictationService;
+    private final DictationStatusService dictationStatusService;
 
-    public AuthController(UserService userService, StatisticsService statisticsService) {
+    public AuthController(UserService userService,
+                          StatisticsService statisticsService,
+                          DictationService dictationService,
+                          DictationStatusService dictationStatusService) {
         this.userService = userService;
         this.statisticsService = statisticsService;
+        this.dictationService = dictationService;
+        this.dictationStatusService = dictationStatusService;
     }
 
     @PostMapping("/register")
@@ -29,6 +42,17 @@ public class AuthController {
 
         Statistics newStats = new Statistics(registeredUser, 0, 0, 0, 0);
         Statistics createdStats = statisticsService.saveStatistics(newStats);
+
+        List<Dictation> allDictations = dictationService.findAll();
+        for (Dictation dictation : allDictations) {
+            DictationStatus ds = new DictationStatus(
+                    dictation,
+                    registeredUser,
+                    DictationStatus.DictationStatusEnum.НЕ_НАЧАТО,
+                    0.0
+            );
+            dictationStatusService.saveDictationStatus(ds);
+        }
 
         return ResponseEntity.ok(registeredUser);
     }
