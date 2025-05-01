@@ -4,6 +4,7 @@ import com.houseoflyrics.backend.entity.Dictation;
 import com.houseoflyrics.backend.entity.DictationStatus;
 import com.houseoflyrics.backend.entity.Statistics;
 import com.houseoflyrics.backend.entity.Users;
+import com.houseoflyrics.backend.service.AchievementStatusService;
 import com.houseoflyrics.backend.service.DictationService;
 import com.houseoflyrics.backend.service.DictationStatusService;
 import com.houseoflyrics.backend.service.StatisticsService;
@@ -21,15 +22,18 @@ public class AuthController {
     private final StatisticsService statisticsService;
     private final DictationService dictationService;
     private final DictationStatusService dictationStatusService;
+    private final AchievementStatusService achievementStatusService;
 
     public AuthController(UserService userService,
                           StatisticsService statisticsService,
                           DictationService dictationService,
-                          DictationStatusService dictationStatusService) {
+                          DictationStatusService dictationStatusService,
+                          AchievementStatusService achievementStatusService) {
         this.userService = userService;
         this.statisticsService = statisticsService;
         this.dictationService = dictationService;
         this.dictationStatusService = dictationStatusService;
+        this.achievementStatusService = achievementStatusService;
     }
 
     @PostMapping("/register")
@@ -41,7 +45,7 @@ public class AuthController {
         Users registeredUser = userService.registerUser(user);
 
         Statistics newStats = new Statistics(registeredUser, 0, 0, 0, 0);
-        Statistics createdStats = statisticsService.saveStatistics(newStats);
+        statisticsService.saveStatistics(newStats);
 
         List<Dictation> allDictations = dictationService.findAll();
         for (Dictation dictation : allDictations) {
@@ -53,6 +57,8 @@ public class AuthController {
             );
             dictationStatusService.saveDictationStatus(ds);
         }
+
+        achievementStatusService.assignDefaultAchievementStatusToUser(registeredUser);
 
         return ResponseEntity.ok(registeredUser);
     }

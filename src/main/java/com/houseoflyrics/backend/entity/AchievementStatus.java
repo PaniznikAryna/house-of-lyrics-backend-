@@ -34,7 +34,6 @@ public class AchievementStatus {
         this.status = status;
         this.dateOfReceipt = dateOfReceipt;
     }
-
     public Long getId() {
         return id;
     }
