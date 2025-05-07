@@ -9,23 +9,23 @@ public class Test {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_lesson", nullable = false, unique = true)
+    @ManyToOne
+    @JoinColumn(name = "id_lesson", nullable = false)
     private Lesson lesson;
 
     @Column(name = "title", nullable = false, length = 255)
     private String title;
 
-    @Column(name = "dictation", nullable = false, columnDefinition = "TEXT")
-    private String dictation;
+    @Column(name = "description", nullable = false, columnDefinition = "TEXT")
+    private String description;
 
     public Test(){
     }
 
-    public Test(Lesson lesson, String title, String dictation) {
+    public Test(Lesson lesson, String title, String description) {
         this.lesson = lesson;
         this.title = title;
-        this.dictation = dictation;
+        this.description = description;
     }
 
     public Long getId() {
@@ -52,11 +52,11 @@ public class Test {
         this.title = title;
     }
 
-    public String getDictation() {
-        return dictation;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDictation(String dictation) {
-        this.dictation = dictation;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

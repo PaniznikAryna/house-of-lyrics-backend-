@@ -12,7 +12,7 @@ public class Lesson {
     @Column(name = "title", nullable = false, length = 255)
     private String title;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_course", nullable = false)
     private Course course;
 

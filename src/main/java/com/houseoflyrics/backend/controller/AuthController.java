@@ -2,13 +2,11 @@ package com.houseoflyrics.backend.controller;
 
 import com.houseoflyrics.backend.entity.Dictation;
 import com.houseoflyrics.backend.entity.DictationStatus;
+import com.houseoflyrics.backend.entity.Test;
+import com.houseoflyrics.backend.entity.TestStatus;
 import com.houseoflyrics.backend.entity.Statistics;
 import com.houseoflyrics.backend.entity.Users;
-import com.houseoflyrics.backend.service.AchievementStatusService;
-import com.houseoflyrics.backend.service.DictationService;
-import com.houseoflyrics.backend.service.DictationStatusService;
-import com.houseoflyrics.backend.service.StatisticsService;
-import com.houseoflyrics.backend.service.UserService;
+import com.houseoflyrics.backend.service.*;
 import com.houseoflyrics.backend.util.JwtUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,17 +20,23 @@ public class AuthController {
     private final StatisticsService statisticsService;
     private final DictationService dictationService;
     private final DictationStatusService dictationStatusService;
+    private final TestService testService;
+    private final TestStatusService testStatusService;
     private final AchievementStatusService achievementStatusService;
 
     public AuthController(UserService userService,
                           StatisticsService statisticsService,
                           DictationService dictationService,
                           DictationStatusService dictationStatusService,
+                          TestService testService,
+                          TestStatusService testStatusService,
                           AchievementStatusService achievementStatusService) {
         this.userService = userService;
         this.statisticsService = statisticsService;
         this.dictationService = dictationService;
         this.dictationStatusService = dictationStatusService;
+        this.testService = testService;
+        this.testStatusService = testStatusService;
         this.achievementStatusService = achievementStatusService;
     }
 
@@ -56,6 +60,17 @@ public class AuthController {
                     0.0
             );
             dictationStatusService.saveDictationStatus(ds);
+        }
+
+        List<Test> allTests = testService.findAll();
+        for (Test test : allTests) {
+            TestStatus ts = new TestStatus(
+                    test,
+                    registeredUser,
+                    TestStatus.TestStatusEnum.НЕ_НАЧАТО,
+                    0.0
+            );
+            testStatusService.saveTestStatus(ts);
         }
 
         achievementStatusService.assignDefaultAchievementStatusToUser(registeredUser);

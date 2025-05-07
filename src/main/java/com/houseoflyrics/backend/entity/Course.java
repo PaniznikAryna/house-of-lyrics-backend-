@@ -1,8 +1,10 @@
 package com.houseoflyrics.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "course")
 public class Course {
     @Id
