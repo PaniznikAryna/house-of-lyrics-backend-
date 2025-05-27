@@ -1,11 +1,6 @@
 package com.houseoflyrics.backend.controller;
 
-import com.houseoflyrics.backend.entity.Dictation;
-import com.houseoflyrics.backend.entity.DictationStatus;
-import com.houseoflyrics.backend.entity.Test;
-import com.houseoflyrics.backend.entity.TestStatus;
-import com.houseoflyrics.backend.entity.Statistics;
-import com.houseoflyrics.backend.entity.Users;
+import com.houseoflyrics.backend.entity.*;
 import com.houseoflyrics.backend.service.*;
 import com.houseoflyrics.backend.util.JwtUtil;
 import org.springframework.http.ResponseEntity;
@@ -24,13 +19,19 @@ public class AuthController {
     private final TestStatusService testStatusService;
     private final AchievementStatusService achievementStatusService;
 
+    private final TestCompositionService testCompositionService;
+    private final TestCompositionStatusService testCompositionStatusService;
+
     public AuthController(UserService userService,
                           StatisticsService statisticsService,
                           DictationService dictationService,
                           DictationStatusService dictationStatusService,
                           TestService testService,
                           TestStatusService testStatusService,
-                          AchievementStatusService achievementStatusService) {
+                          AchievementStatusService achievementStatusService,
+                          TestCompositionService testCompositionService,
+                          TestCompositionStatusService testCompositionStatusService) {
+
         this.userService = userService;
         this.statisticsService = statisticsService;
         this.dictationService = dictationService;
@@ -38,6 +39,8 @@ public class AuthController {
         this.testService = testService;
         this.testStatusService = testStatusService;
         this.achievementStatusService = achievementStatusService;
+        this.testCompositionService = testCompositionService;
+        this.testCompositionStatusService = testCompositionStatusService;
     }
 
     @PostMapping("/register")
@@ -62,6 +65,13 @@ public class AuthController {
             dictationStatusService.saveDictationStatus(ds);
         }
 
+        List<TestComposition> allCompositionTests = testCompositionService.findAll();
+        for (TestComposition test : allCompositionTests) {
+            TestCompositionStatus ts = new TestCompositionStatus(test, registeredUser, 0.0);
+            testCompositionStatusService.saveStatus(ts);
+        }
+
+
         List<Test> allTests = testService.findAll();
         for (Test test : allTests) {
             TestStatus ts = new TestStatus(
@@ -74,6 +84,7 @@ public class AuthController {
         }
 
         achievementStatusService.assignDefaultAchievementStatusToUser(registeredUser);
+
 
         return ResponseEntity.ok(registeredUser);
     }

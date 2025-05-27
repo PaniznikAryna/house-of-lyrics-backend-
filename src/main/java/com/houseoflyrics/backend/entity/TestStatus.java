@@ -34,7 +34,7 @@ public class TestStatus {
         }
     }
 
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = com.houseoflyrics.backend.TestStatusEnumConverter.class)
     @Column(name = "status", nullable = false)
     private TestStatusEnum status;
 

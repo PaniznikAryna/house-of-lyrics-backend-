@@ -17,12 +17,16 @@ public class TestCompositionStatus {
     @JoinColumn(name = "id_user", nullable = false)
     private Users user;
 
+    @Column(name = "result", nullable = false)
+    private double result = 0.0;
+
     public TestCompositionStatus(){
     }
 
-    public TestCompositionStatus(TestComposition testComposition, Users user) {
+    public TestCompositionStatus(TestComposition testComposition, Users user, double result) {
         this.testComposition = testComposition;
         this.user = user;
+        this.result = result;
     }
 
     public Long getId() {
@@ -47,5 +51,13 @@ public class TestCompositionStatus {
 
     public void setUser(Users user) {
         this.user = user;
+    }
+
+    public double getResult() {
+        return result;
+    }
+
+    public void setResult(double result) {
+        this.result = result;
     }
 }
