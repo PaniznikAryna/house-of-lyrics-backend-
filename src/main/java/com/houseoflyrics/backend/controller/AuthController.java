@@ -1,5 +1,6 @@
 package com.houseoflyrics.backend.controller;
 
+import com.houseoflyrics.backend.dto.AuthResponseDTO;
 import com.houseoflyrics.backend.entity.*;
 import com.houseoflyrics.backend.service.*;
 import com.houseoflyrics.backend.util.JwtUtil;
@@ -90,13 +91,19 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String mail, @RequestParam String password) {
+    public ResponseEntity<?> login(@RequestParam String mail, @RequestParam String password) {
         boolean isAuthenticated = userService.authenticate(mail, password);
         if (isAuthenticated) {
             String token = JwtUtil.generateToken(mail);
-            return ResponseEntity.ok("Токен: " + token);
+            Users user = userService.findByMail(mail).orElse(null);
+            if (user == null) {
+                return ResponseEntity.status(404).body("Пользователь не найден");
+            }
+            AuthResponseDTO response = new AuthResponseDTO(token, user.getId());
+            return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(401).body("Ошибка авторизации");
         }
     }
+
 }

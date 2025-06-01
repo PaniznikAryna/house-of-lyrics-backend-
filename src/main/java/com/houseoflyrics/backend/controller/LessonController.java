@@ -24,31 +24,22 @@ public class LessonController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Lesson>> getAllLessons(@RequestHeader("Authorization") String token) {
-        if (JwtUtil.validateToken(token)) {
-            List<Lesson> lessons = lessonService.findAll();
-            return ResponseEntity.ok(lessons);
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    public ResponseEntity<List<Lesson>> getAllLessons() {
+        List<Lesson> lessons = lessonService.findAll();
+        return ResponseEntity.ok(lessons);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Lesson> getLessonById(@RequestHeader("Authorization") String token, @PathVariable Long id) {
-        if (JwtUtil.validateToken(token)) {
-            Optional<Lesson> lesson = lessonService.findById(id);
-            return lesson.map(ResponseEntity::ok)
-                    .orElseGet(() -> ResponseEntity.notFound().build());
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    public ResponseEntity<Lesson> getLessonById(@PathVariable Long id) {
+        Optional<Lesson> lesson = lessonService.findById(id);
+        return lesson.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/course/{courseId}")
-    public ResponseEntity<List<Lesson>> getLessonsByCourse(@RequestHeader("Authorization") String token, @PathVariable Long courseId) {
-        if (JwtUtil.validateToken(token)) {
-            List<Lesson> lessons = lessonService.findAllByCourseId(courseId);
-            return ResponseEntity.ok(lessons);
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    public ResponseEntity<List<Lesson>> getLessonsByCourse(@PathVariable Long courseId) {
+        List<Lesson> lessons = lessonService.findAllByCourseId(courseId);
+        return ResponseEntity.ok(lessons);
     }
 
     @PostMapping("/add")

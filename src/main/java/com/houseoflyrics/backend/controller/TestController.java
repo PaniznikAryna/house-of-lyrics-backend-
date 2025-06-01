@@ -48,14 +48,18 @@ public class TestController {
         return ResponseEntity.status(401).build();
     }
 
-    @GetMapping("/lesson/{lessonId}")
-    public ResponseEntity<List<Test>> getTestsByLesson(@RequestHeader("Authorization") String token, @PathVariable Long lessonId) {
-        if (JwtUtil.validateToken(token)) {
-            List<Test> tests = testService.findAllByLessonId(lessonId);
-            return ResponseEntity.ok(tests);
+    @GetMapping("/lesson/{id}")
+    public ResponseEntity<List<Test>> getTestsByLessonId(@PathVariable Long id) {
+        System.out.println("Получение тестов для урока с ID: " + id);
+        List<Test> tests = testService.findAllByLessonId(id);
+        if (tests.isEmpty()) {
+            System.out.println("Нет тестов для урока с ID: " + id);
+            return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.status(401).build();
+        System.out.println("Найдено тестов: " + tests.size());
+        return ResponseEntity.ok(tests);
     }
+
 
     @PostMapping("/add")
     public ResponseEntity<?> addTest(@RequestHeader("Authorization") String token,

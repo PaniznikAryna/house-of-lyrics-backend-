@@ -20,8 +20,11 @@ public class TestService {
     }
 
     public List<Test> findAllByLessonId(Long lessonId) {
-        return testRepository.findAllByLessonId(lessonId);
+        List<Test> tests = testRepository.findAllByLessonId(lessonId);
+        System.out.println("Запрос тестов по lessonId: " + lessonId + ", найдено тестов: " + tests.size());
+        return tests;
     }
+
 
     public Optional<Test> findById(Long id){
         return testRepository.findById(id);

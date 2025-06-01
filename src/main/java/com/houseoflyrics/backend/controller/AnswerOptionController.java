@@ -43,22 +43,17 @@ public class AnswerOptionController {
     }
 
     @GetMapping("/byTask/{taskId}")
-    public ResponseEntity<List<AnswerOption>> getAnswerOptionsByTask(@RequestHeader("Authorization") String token, @PathVariable Long taskId) {
-        if (JwtUtil.validateToken(token)) {
-            List<AnswerOption> answerOptions = answerOptionService.findByTaskId(taskId);
-            return ResponseEntity.ok(answerOptions);
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    public ResponseEntity<List<AnswerOption>> getAnswerOptionsByTask(@PathVariable Long taskId) {
+        List<AnswerOption> answerOptions = answerOptionService.findByTaskId(taskId);
+        return ResponseEntity.ok(answerOptions);
     }
 
     @GetMapping("/correct/byTask/{taskId}")
-    public ResponseEntity<List<AnswerOption>> getCorrectAnswerOptionsByTask(@RequestHeader("Authorization") String token, @PathVariable Long taskId) {
-        if (JwtUtil.validateToken(token)) {
-            List<AnswerOption> correctAnswers = answerOptionService.findCorrectByTaskId(taskId);
-            return ResponseEntity.ok(correctAnswers);
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    public ResponseEntity<List<AnswerOption>> getCorrectAnswerOptionsByTask(@PathVariable Long taskId) {
+        List<AnswerOption> correctAnswers = answerOptionService.findCorrectByTaskId(taskId);
+        return ResponseEntity.ok(correctAnswers);
     }
+
 
     @PostMapping("/add")
     public ResponseEntity<?> addAnswerOption(@RequestHeader("Authorization") String token, @RequestBody AnswerOption answerOption) {

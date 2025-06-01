@@ -43,13 +43,11 @@ public class TaskController {
     }
 
     @GetMapping("/byTest/{testId}")
-    public ResponseEntity<List<Task>> getTasksByTest(@RequestHeader("Authorization") String token, @PathVariable Long testId) {
-        if (JwtUtil.validateToken(token)) {
-            List<Task> tasks = taskService.findByTestId(testId);
-            return ResponseEntity.ok(tasks);
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    public ResponseEntity<List<Task>> getTasksByTest(@PathVariable Long testId) {
+        List<Task> tasks = taskService.findByTestId(testId);
+        return ResponseEntity.ok(tasks);
     }
+
 
     @PostMapping("/add")
     public ResponseEntity<?> addTask(@RequestHeader("Authorization") String token, @RequestBody Task task) {

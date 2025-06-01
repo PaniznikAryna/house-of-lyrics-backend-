@@ -13,7 +13,7 @@ import com.houseoflyrics.backend.service.UserService;
 public class JwtUtil {
     private static final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    private static final long EXPIRATION_TIME = 3600000; // 1 час
+    private static final long EXPIRATION_TIME = 3600000;
 
     public static String generateToken(String mail) {
         return Jwts.builder()

@@ -22,14 +22,13 @@ public class CourseController {
         this.userService = userService;
     }
 
+
     @GetMapping("/all")
-    public ResponseEntity<List<Course>> getAllCourse(@RequestHeader("Authorization") String token) {
-        if (JwtUtil.validateToken(token)) {
-            List<Course> instruments = courseService.findAll();
-            return ResponseEntity.ok(instruments);
-        }
-        return ResponseEntity.status(401).build();
+    public ResponseEntity<List<Course>> getAllCourse() {
+        List<Course> instruments = courseService.findAll();
+        return ResponseEntity.ok(instruments);
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Course> getCourseById(@RequestHeader("Authorization") String token, @PathVariable Long id) {

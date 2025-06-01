@@ -23,13 +23,11 @@ public class MusicalInstrumentController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<MusicalInstrument>> getAllInstruments(@RequestHeader("Authorization") String token) {
-        if (JwtUtil.validateToken(token)) {
-            List<MusicalInstrument> instruments = musicalInstrumentService.findAll();
-            return ResponseEntity.ok(instruments);
-        }
-        return ResponseEntity.status(401).build();
+    public ResponseEntity<List<MusicalInstrument>> getAllInstruments() {
+        List<MusicalInstrument> instruments = musicalInstrumentService.findAll();
+        return ResponseEntity.ok(instruments);
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<MusicalInstrument> getInstrumentById(@RequestHeader("Authorization") String token, @PathVariable Long id) {

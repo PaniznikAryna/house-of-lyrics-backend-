@@ -23,60 +23,41 @@ public class CompositionController {
         this.userService = userService;
     }
 
-
     @GetMapping("/all")
-    public ResponseEntity<List<Composition>> getAllCompositions(@RequestHeader("Authorization") String token) {
-        if (JwtUtil.validateToken(token)) {
-            List<Composition> compositions = compositionService.findAll();
-            return ResponseEntity.ok(compositions);
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    public ResponseEntity<List<Composition>> getAllCompositions() {
+        List<Composition> compositions = compositionService.findAll();
+        return ResponseEntity.ok(compositions);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Composition> getCompositionById(@RequestHeader("Authorization") String token, @PathVariable Long id) {
-        if (JwtUtil.validateToken(token)) {
-            Optional<Composition> composition = compositionService.findById(id);
-            return composition.map(ResponseEntity::ok)
-                    .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    public ResponseEntity<Composition> getCompositionById(@PathVariable Long id) {
+        Optional<Composition> composition = compositionService.findById(id);
+        return composition.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<Composition>> findCompositionsByTitle(@RequestHeader("Authorization") String token, @RequestParam String title) {
-        if (JwtUtil.validateToken(token)) {
-            List<Composition> compositions = compositionService.findByTitle(title);
-            return ResponseEntity.ok(compositions);
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    public ResponseEntity<List<Composition>> findCompositionsByTitle(@RequestParam String title) {
+        List<Composition> compositions = compositionService.findByTitle(title);
+        return ResponseEntity.ok(compositions);
     }
 
     @GetMapping("/byComposer/{composerId}")
-    public ResponseEntity<List<Composition>> getCompositionsByComposer(@RequestHeader("Authorization") String token, @PathVariable Long composerId) {
-        if (JwtUtil.validateToken(token)) {
-            List<Composition> compositions = compositionService.findByComposer(composerId);
-            return ResponseEntity.ok(compositions);
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    public ResponseEntity<List<Composition>> getCompositionsByComposer(@PathVariable Long composerId) {
+        List<Composition> compositions = compositionService.findByComposer(composerId);
+        return ResponseEntity.ok(compositions);
     }
 
     @GetMapping("/byTonality")
-    public ResponseEntity<List<Composition>> getCompositionsByTonality(@RequestHeader("Authorization") String token, @RequestParam String tonality) {
-        if (JwtUtil.validateToken(token)) {
-            List<Composition> compositions = compositionService.findByTonality(tonality);
-            return ResponseEntity.ok(compositions);
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    public ResponseEntity<List<Composition>> getCompositionsByTonality(@RequestParam String tonality) {
+        List<Composition> compositions = compositionService.findByTonality(tonality);
+        return ResponseEntity.ok(compositions);
     }
 
     @GetMapping("/byDifficulty")
-    public ResponseEntity<List<Composition>> getCompositionsByDifficulty(@RequestHeader("Authorization") String token, @RequestParam String difficultyLevel) {
-        if (JwtUtil.validateToken(token)) {
-            List<Composition> compositions = compositionService.findByDifficultyLevel(difficultyLevel);
-            return ResponseEntity.ok(compositions);
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    public ResponseEntity<List<Composition>> getCompositionsByDifficulty(@RequestParam String difficultyLevel) {
+        List<Composition> compositions = compositionService.findByDifficultyLevel(difficultyLevel);
+        return ResponseEntity.ok(compositions);
     }
 
     @PostMapping("/add")
